@@ -6,6 +6,7 @@ import Header from "components/Header";
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import CartRest from "components/CartRest";
 import RestoranCite from "components/RestoranCite";
+import Menu from "components/Menu";
 
 export type rest={
   id: number,
@@ -26,7 +27,7 @@ const App=() =>{
 const [word, setWord] = useState<string>('')
 const [show, setShow] = useState (false)
 const [listRests, setlistRests] = useState ([])
-const [infoRest, setinfoRest] = useState ({})
+const [slug, setSlug] = useState ('')
 
 useEffect(()=>{ 
   fetch(`https://www.bit-by-bit.ru/api/student-projects/restaurants`)
@@ -48,11 +49,13 @@ useEffect(()=>{
         <Header/>
         <Routes>
           <Route path="/" element={<div className="h-[1000px]  justify-items: center w-[97%]  m-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-[391px]:grid-cols-1 gap-8 items-center pt-10">
-            {listRests.length > 0 ? listRests.map((rest:rest) => {return <CartRest Restoran={rest} key={rest.id} infoRest={infoRest}/> }): <Notification/> }
+            {listRests.length > 0 ? listRests.map((rest:rest) => {return <CartRest Restoran={rest} key={rest.id}  setSlug={setSlug} /> }): <Notification/> }
           </div>}/>
           <Route path="/account" element={<div>Личный кабинет</div>}/>
-          <Route path="/slug" element={<RestoranCite/>}/>
+          <Route path="/:slug" element={<RestoranCite slug={slug} />}/>
+          <Route path="/menu" element={<Menu slug={slug} />}/>
         </Routes>
+        
 
 
         
