@@ -1,32 +1,14 @@
 {
-  "name": "my-app",
+  "name": "react-axios-table",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-icons/all-files": "^4.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@types/react": "^18.0.32",
-    "@types/react-dom": "^18.0.11",
-    "axios": "^1.3.6",
-    "classnames": "^2.3.2",
-    "date-fns": "^2.29.3",
-    "eslint": "^8.38.0",
     "react": "^18.2.0",
-    "react-date-picker": "^9.2.0",
-    "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.7",
-    "react-icons": "^4.8.0",
-    "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
-    "react-uuid": "^2.0.0",
-    "recharts": "^2.4.3",
-    "tailwindcss": "^3.2.6",
-    "typescript": "^5.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -52,8 +34,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "prettier": "2.8.7"
   }
 }

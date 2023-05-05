@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import "components/App/App.css";
-import Notification from "components/Notification";
-// import Modal from "components/Modal";
+import Modal from "components/Modal";
 import Header from "components/Header";
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import CartRest from "components/CartRest";
 import RestoranCite from "components/RestoranCite";
 import Menu from "components/Menu";
+import Footer from "components/Footer";
 
 export type rest={
   id: number,
@@ -22,12 +22,18 @@ export type rest={
   description: string
 
 }
-
+export type cartItems={
+  itemId: number,
+  name: string,
+  price: number,
+  quantity: number,
+  image: string
+}
 const App=() =>{
-const [word, setWord] = useState<string>('')
-const [show, setShow] = useState (false)
+const [show, setShow] = useState (false) //переменная для состояния мод. окна
 const [listRests, setlistRests] = useState ([])
-const [slug, setSlug] = useState ('')
+const [cartItems, setCartItems] = useState<cartItems[]>([]) //массив для хранения товаров, добавленных в корзину
+const [idRest, setIdRest] = useState () //переменная для передачи ID ресторана в postзапрос 
 
 useEffect(()=>{ 
   fetch(`https://www.bit-by-bit.ru/api/student-projects/restaurants`)
@@ -37,44 +43,30 @@ useEffect(()=>{
       setlistRests([])
     } else{
       setlistRests(res)
-      
-      {console.log(listRests)}
-     
     }
   })},[])
+
+  const deleteOder=(itemId:number)=>{
+    setCartItems(cartItems.filter(item => item.itemId !== itemId))
+  }
+
+
+
   return (
-    
-   
       <BrowserRouter> 
-        <Header/>
+      
+        <Header cartItems={cartItems} onDelite={deleteOder} setCartItems={setCartItems}  setShow={setShow} show={show} />
+        <Modal show={show} setShow={setShow} cartItems={cartItems} setCartItems={setCartItems} idRest={idRest}/>
         <Routes>
-          <Route path="/" element={<div className="h-[1000px]  justify-items: center w-[97%]  m-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-[391px]:grid-cols-1 gap-8 items-center pt-10">
-            {listRests.length > 0 ? listRests.map((rest:rest) => {return <CartRest Restoran={rest} key={rest.id}  setSlug={setSlug} /> }): <Notification/> }
+          <Route path="/" element={<div className=" items-center w-[70%] sm:w-[80%] md:w-[90%] m-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-[415px]:grid-cols-1 gap-8 items-center pt-10">
+            {listRests.length > 0 ? listRests.map((rest:rest) => {return <CartRest restoran={rest} key={rest.id} setOders={setCartItems} setIdRest={setIdRest}  /> }): <h1>Нет ресторанов</h1> }
           </div>}/>
-          <Route path="/account" element={<div>Личный кабинет</div>}/>
-          <Route path="/:slug" element={<RestoranCite slug={slug} />}/>
-          <Route path="/menu" element={<Menu slug={slug} />}/>
-        </Routes>
-        
-
-
-        
-      </BrowserRouter>
-      
-      
-      /* <div className="w-full h-full">
-        <div className=" m-auto bg-black h-full">
           
-          <Modal show={show} onClose={()=>setShow(false)}/>
-          <div className=" justify-items: center w-[90%]  m-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-[391px]:grid-cols-1 gap-4 items-center bg-black pt-10">
-             {listFilms.length > 0 ? listFilms.map((film) => {return <Film Film={film} key={film.imdbID} setShow={setShow} setinfoFilm={setinfoFilm} infoFilm={infoFilm}/>}): <Notification/> } 
-          </div>
-        </div>
-      </div>  */
-     
-    
-     
-    
+          <Route path="/:slug" element={<RestoranCite/>}/>
+          <Route path="/:slug/menu" element={<Menu setCartItems={setCartItems} cartItems={cartItems}/>}/>
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
   )
 }
 export default App;
