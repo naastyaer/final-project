@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams} from 'react-router-dom'
 import CartMenu from "components/CartMenu";
 import{cartItems} from "components/App"
+import Loader from "components/Loader";
+import FilterPrice from "components/FilterPrice";
+import { info } from "console";
 
 export type infoMenu={
     id: string,
@@ -15,12 +18,26 @@ type Props = {
     cartItems:cartItems[]
     setCartItems:cartItems[]
 }
+
 function Menu (props:Props){
+    const [isLoading, setIsLoading] = useState(false)
+    const [infoMenu, setInfoMenu] = useState<infoMenu[]>([])
+    const [currentinfoMenu, setCurrentInfoMenu] = useState<infoMenu[]>([...infoMenu])
     const {setCartItems, cartItems}= props
-    
     const params= useParams()
     const {slug}= params
-    const [infoMenu, setInfoMenu] = useState<infoMenu[]>([])
+    
+
+    const filterByPrice = (price: number) => {
+        const filteredMenu = infoMenu.filter((item) =>{
+                return parseInt(item.price) <=price
+            })
+            console.log(filteredMenu)
+            setCurrentInfoMenu(filteredMenu)
+            //как добавить сюда, чтобы фу-ия возвращала html в компонент FilterPrice
+            }
+    
+    
 
     const addToOder=(item:infoMenu)=>{
         // проверим, есть ли такой item, отфильтровав по name (или id)
@@ -61,21 +78,32 @@ function Menu (props:Props){
              }
              setCartItems([...cartItems, newItem])
         }
-   }
-    
+    }
     useEffect(()=>{ 
         fetch(`https://www.bit-by-bit.ru/api/student-projects/restaurants/${slug}/items`)
         .then(data => data.json())
         .then(res => {
                 setInfoMenu(res)
+                setIsLoading(true)
+                 
           })},[])
     return(
-        <div className=" justify-items: center w-[90%]  m-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center mt-10">
-             {infoMenu.length > 0 ? infoMenu.map((item:infoMenu) => {return <CartMenu item={item} key={item.id}  onAdd={addToOder} /> }): <h1>Нет товаров</h1> }
+        <div>
+             <FilterPrice filterByPrice={filterByPrice}/> 
+          <div className="justify-items: center w-[90%]  m-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 items-center mt-10">
+          {isLoading
+              ?currentinfoMenu.length>0?
+              currentinfoMenu.map((item:infoMenu) => {return <CartMenu item={item} key={item.id}  onAdd={addToOder} /> }):
+                infoMenu.map((item:infoMenu) => {return <CartMenu item={item} key={item.id}  onAdd={addToOder} /> })
+              : <Loader/> }
+            
 
+        </div>  
         </div>
+        
          
     )
+
 }
 export default  Menu
 

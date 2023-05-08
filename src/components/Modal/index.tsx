@@ -1,10 +1,15 @@
 import { useState  } from "react"
+import { Form, Field } from 'react-final-form'
+import ModalSentOder from "components/ModalSentOder"
 
-const Modal = ({show, setShow, cartItems, setCartItems, idRest}) =>{
+const Modal = ({show, setShow, cartItems, setCartItems, idRest, setShowSentOder}) =>{
     const [name, setName] = useState ('')
     const [number, setNumber] = useState ('')
     const [mail, setMail] = useState ('')
-    
+    const onSubmit= (e)=>{
+        debugger
+
+    }
     if(!show){
         return null
     }
@@ -22,66 +27,90 @@ const Modal = ({show, setShow, cartItems, setCartItems, idRest}) =>{
             
 		})
         setShow(!show)
-        alert('запрос отправлен')
+        setShowSentOder(true)
         setName('')
         setNumber('')
         setMail('')
         setCartItems([])
         }catch(err) {
-            alert(err); // TypeError: failed to fetch
+            alert(err)
         }
     }
     return (  
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-70 z-100 ">
         <div className="bg-white rounded shadow-lg px-10 py-5  ">
         <div className=" gap-4 flex flex-col"> 
-                    <div className="flex flex-col">
-                        <label className="">Имя</label>
-                        <input 
-                            onChange={(e) =>{ setName(e.target.value)}}
-                           
-                            value={name}
-                            name="name" 
-                            type="text" 
-                            className="mb-2  text-black  w-full  rounded-sm bg-slate-100 p-1"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="">Телефон</label>
-                        <input 
-                            onChange={(e) =>{ setNumber(e.target.value)}}
-                            
-                            value={number}
-                            name="number" 
-                            type="text" 
-                            className="mb-2  text-black  w-full  rounded-sm bg-slate-100 p-1"
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="">Почта</label>
-                        <input 
-                            onChange={(order) =>{ setMail(order.target.value)}}
-                            
-                            value={mail}
-                            name="number" 
-                            type="text" 
-                            className="mb-2  text-black  w-full  rounded-sm bg-slate-100 p-1"
-                        />
-                    </div>
+        <Form
+            onSubmit={onSubmit}
+            validate={values => {
+                const errors = {}
+                if (!values.phone) {
+                    errors.phone = 'Заполните поле'
+                }
+                if(isNaN(values.phone)){
+                    errors.phone = 'Вводите только числа'
+                }
+                if(!isNaN(values.name)){
+                    errors.name = 'Вводите только буквы'
+                }
+                return errors
+                }}
+                render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+            <div className="flex flex-col">
+                
+                <Field name="name">
+                {({ input, meta }) => (
+              <div>
+                <label>Имя</label>
+                <input {...input}  component="input" placeholder="Анастасия" onChange={(e) =>{ setName(e.target.value)}} />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+                </Field>
+            </div>
+            <div className="flex flex-col">
+                
+                <Field name="phone">
+                {({ input, meta }) => (
+              <div>
+                <label>Телефон</label>
+                <input {...input}  component="input" placeholder="+79-277-52-77-45" onChange={(e) =>{ setNumber(e.target.value)}}/>
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+                </Field>
+            </div>
+            
+            <div className="flex flex-col">
+                
+                <Field name="mail">
+                {({ input, meta }) => (
+              <div>
+                <label>Почта</label>
+                <input {...input}  component="input" placeholder="bla@mail.com" onChange={(order) =>{ setMail(order.target.value)}}/>
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+                </Field>
+            </div>
 
-                    
+           
+            </form>
+        )}
+        />
         </div> 
             
             <div className="flex justify-end items-center w-100 border-t p-3">
-                <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white " onClick={sentOder} >Заказать</button>
+                <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white "  type="submit" onClick={sentOder} >Заказать</button>
                 
-            </div>
+            </div> 
           
            
             
 
-        </div>
-    </div>
+         </div>
+    </div> 
     )
 }
 export default Modal

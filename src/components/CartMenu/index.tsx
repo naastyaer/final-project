@@ -1,14 +1,8 @@
 import {infoMenu} from 'components/Menu'
-import{cartItems} from "components/App"
-
-
 type Props = {
     item: infoMenu
     onAdd:any
-    
-    
 }
-
 function CartMenu (props:Props){
     const {item, onAdd}= props
 

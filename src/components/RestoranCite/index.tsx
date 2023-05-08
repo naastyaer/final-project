@@ -29,7 +29,7 @@ function RestoranCite (){
 
     return(
         <div className=" flex flex-col min-[400px]:flex-row mt-5 w-[90%] m-auto mb-20">
-            <div className=" w-full sm:w-[25%] bg-red-400 ">
+            <div className=" w-full sm:w-[25%]">
                 <div className="flex flex-row sm:flex-col mb-3 ">
                     <div className="cursor-pointer flex flex-row bg-slate-100 rounded-xl mr-20 sm:mr-0 px-3 md:px-5 py-2 items-center hover:bg-slate-200 ">
                         <img src="icon/arrow_icon.png" alt="" className=" w-[15px] h-[15px] sm:w-[30px] sm:h-[30px]"/>
@@ -85,15 +85,6 @@ function RestoranCite (){
                 <img src={infoRests.image} className='w-full m-auto rounded-3xl h-[300px] md:h-[500px] ' />
   
             </div>
-            {/* <div className="w-[25%]   ">
-                <div className="bg-slate-200 rounded-2xl w-[85%] h-[450px]">
-                  <h1 className=" pl-5 pt-5 text-xl font-bold ">Корзина</h1>  
-                  <div>
-                  <p className="pl-5 pt-40 text-xl font-bold ">В вашей корзине пока пусто</p>
-                  </div>
-                </div>
-                
-            </div> */}
 
             
             
