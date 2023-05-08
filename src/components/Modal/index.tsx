@@ -1,14 +1,23 @@
 import { useState  } from "react"
 import { Form, Field } from 'react-final-form'
+import { cartItems } from "components/App"
 import ModalSentOder from "components/ModalSentOder"
+type Props = {
+    show: boolean,
+    setShow: boolean,
+    cartItems:cartItems[], 
+    setCartItems:cartItems, 
+    idRest: number, 
+    setShowSentOder: boolean
+}
+const Modal = (props:Props) =>{
+    const {show, setShow, idRest, setShowSentOder, setCartItems, cartItems}= props
 
-const Modal = ({show, setShow, cartItems, setCartItems, idRest, setShowSentOder}) =>{
     const [name, setName] = useState ('')
     const [number, setNumber] = useState ('')
     const [mail, setMail] = useState ('')
-    const onSubmit= (e)=>{
+    const onSubmit= (e: any)=>{
         debugger
-
     }
     if(!show){
         return null
@@ -26,16 +35,17 @@ const Modal = ({show, setShow, cartItems, setCartItems, idRest, setShowSentOder}
 			})
             
 		})
-        setShow(!show)
-        setShowSentOder(true)
+        setShow(!show)//не понимаю на что ругается TS
+        setShowSentOder(true)//не понимаю на что ругается TS
         setName('')
         setNumber('')
         setMail('')
-        setCartItems([])
+        setCartItems([])//не понимаю на что ругается TS
         }catch(err) {
             alert(err)
         }
     }
+    //данне введенные в форму не отображаются в полях
     return (  
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-70 z-100 ">
         <div className="bg-white rounded shadow-lg px-10 py-5  ">
@@ -45,13 +55,19 @@ const Modal = ({show, setShow, cartItems, setCartItems, idRest, setShowSentOder}
             validate={values => {
                 const errors = {}
                 if (!values.phone) {
-                    errors.phone = 'Заполните поле'
+                    errors.phone = 'Заполните поле' //не понимаю на что ругается TS
+                }
+                if (!values.name) {
+                    errors.name = 'Заполните поле'//не понимаю на что ругается TS
+                }
+                if (!values.mail) {
+                    errors.mail = 'Заполните поле'//не понимаю на что ругается TS
                 }
                 if(isNaN(values.phone)){
-                    errors.phone = 'Вводите только числа'
+                    errors.phone = 'Вводите только числа' //не понимаю на что ругается TS
                 }
                 if(!isNaN(values.name)){
-                    errors.name = 'Вводите только буквы'
+                    errors.name = 'Вводите только буквы'//не понимаю на что ругается TS 
                 }
                 return errors
                 }}

@@ -34,7 +34,7 @@ export type cartItems={
 }
 const App=() =>{
 const [show, setShow] = useState (false) //переменная для состояния мод. окна
-const [showSentOder, setShowSentOder] = useState (false) //переменная для состояния мод. окна
+const [showSentOder, setShowSentOder] = useState (false) //переменная для состояния мод. окна отправки заказа
 const [listRests, setlistRests] = useState ([])
 let [currentListRests, setCurrentListRests] = useState([...listRests]); //масиив для категорий
 const [cartItems, setCartItems] = useState<cartItems[]>([]) //массив для хранения товаров, добавленных в корзину
@@ -58,7 +58,7 @@ useEffect(()=>{
   }
   const choiceCategory = (category: string) => {
     console.log(category)
-    let arr = listRests.filter((el) => {  
+    let arr = listRests.filter((el:rest) => {  
       if (category === "all") {
         return true;
       }

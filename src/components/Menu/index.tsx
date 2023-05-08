@@ -4,7 +4,6 @@ import CartMenu from "components/CartMenu";
 import{cartItems} from "components/App"
 import Loader from "components/Loader";
 import FilterPrice from "components/FilterPrice";
-import { info } from "console";
 
 export type infoMenu={
     id: string,

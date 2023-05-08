@@ -6,7 +6,7 @@ function FilterPrice (props:Props){
     const {filterByPrice}= props
     
     return(
-        <div className=" flex flex-col" id="rangeValue">
+        <div className=" flex flex-col" id="rangeValue w-[100px] items-center">
             <input type="range" id="price" value="0" min="200" max="1000" 
             onChange={(event) => {
                 console.log(event.target.value)
